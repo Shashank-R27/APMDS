@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PronouncePro</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f9fafb, #fceabb);
+    }
+
+    .underline-highlight {
+      position: relative;
+      display: inline-block;
+    }
+
+    .underline-highlight::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 6px;
+      bottom: 0;
+      left: 0;
+      background-color: #fbbf24;
+      transform: rotate(-2deg);
+      z-index: -1;
+    }
+
+    #demo-section.hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="text-gray-900">
+  <!-- Navbar -->
+  <header class="flex justify-between items-center px-6 py-4 bg-white text-black shadow-md">
+    <h1 class="text-3xl font-bold">PronouncePro</h1>
+    <nav class="flex space-x-6 text-lg font-medium">
+      <a href="#" class="hover:text-yellow-600">About PronouncePro</a>
+      <a href="#" class="hover:text-yellow-600">Features</a>
+      <a href="#" class="hover:text-yellow-600">Languages Supported</a>
+    </nav>
+    <div class="space-x-4">
+      <button class="border-2 border-purple-600 text-purple-600 rounded-full px-4 py-1 font-semibold hover:bg-purple-100">Get Started</button>
+      <button class="bg-purple-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-purple-700">Learn More</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="grid md:grid-cols-2 items-center min-h-screen px-6 lg:px-20 py-10 bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100">
+    <div class="order-2 md:order-1 text-center md:text-left">
+      <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-purple-800">
+        Unlock Your <span class="underline-highlight">Pronunciation</span><br>
+        Potential with Us
+      </h2>
+      <p class="text-lg text-gray-800 mb-8">
+        PronouncePro offers instant, personalized feedback, helping you master English and regional languages like
+        Kannada. Practice independently and improve your oral fluency with our free, web-based application. Start your
+        journey to confident communication today!
+      </p>
+      <div class="flex items-center gap-2 max-w-md mx-auto md:mx-0 mb-6">
+        <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-full text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+        <button class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 font-semibold">Sign up</button>
+      </div>
+      <div class="text-center md:text-left">
+        <button id="tryBtn" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold hover:bg-green-600 inline-block">🎉 Try for Free</button>
+      </div>
+    </div>
+    <div class="order-1 md:order-2 mb-10 md:mb-0">
+      <img src="https://images.unsplash.com/photo-1631642982169-4ff84ec670a0" alt="Microphone Image" class="w-full rounded-xl shadow-2xl">
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demo-section" class="p-10 bg-white border-t-4 border-purple-400 hidden">
+    <h2 class="text-3xl font-bold text-center text-purple-700 mb-6">🎤 Try PronouncePro Now</h2>
+    <div class="max-w-3xl mx-auto bg-gradient-to-br from-red-100 via-white to-blue-100 p-8 rounded-3xl shadow-2xl border-4 border-blue-300">
+      <label for="language" class="block text-xl font-semibold text-blue-700 mb-2">Select Language:</label>
+      <select id="language" class="p-3 w-full border-2 border-blue-300 rounded-xl bg-white text-blue-800 font-medium mb-4">
+        <option value="en-US">English (US)</option>
+        <option value="kn-IN">Kannada</option>
+      </select>
+
+      <label for="sentence" class="block text-xl font-semibold text-blue-700 mb-2">What do you want to practice?</label>
+      <input type="text" id="sentence" class="p-3 w-full border-2 border-red-300 rounded-xl bg-white text-blue-800 font-medium mb-6" placeholder="Type a sentence...">
+
+      <div class="flex flex-wrap gap-6 justify-center mb-8">
+        <button id="playBtn" class="bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-8 py-3 rounded-full font-bold shadow-xl">🔊 Hear It</button>
+        <button id="recordBtn" class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white px-8 py-3 rounded-full font-bold shadow-xl">🎙️ Speak Now</button>
+      </div>
+
+      <div class="bg-white bg-opacity-90 p-6 rounded-2xl border-2 border-purple-300">
+        <h2 class="text-2xl font-bold text-purple-800 mb-4">🔍 Instant Feedback</h2>
+        <div id="feedback" class="text-lg font-medium text-gray-800"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Show demo section only when "Try for Free" is clicked
+    document.getElementById('tryBtn').addEventListener('click', () => {
+      const demoSection = document.getElementById('demo-section');
+      demoSection.classList.remove('hidden');
+      demoSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    const playBtn = document.getElementById('playBtn');
+    const recordBtn = document.getElementById('recordBtn');
+    const sentenceInput = document.getElementById('sentence');
+    const feedbackDiv = document.getElementById('feedback');
+    const languageSelect = document.getElementById('language');
+
+    playBtn?.addEventListener('click', () => {
+      const sentence = sentenceInput.value.trim();
+      if (!sentence) return;
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = languageSelect.value;
+      speechSynthesis.speak(utterance);
+    });
+
+    recordBtn?.addEventListener('click', () => {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert('Your browser does not support speech recognition. Please use Chrome.');
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = languageSelect.value;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+      feedbackDiv.innerHTML = '<span class="text-yellow-600">🎧 Listening...</span>';
+
+      recognition.onresult = (event) => {
+        const spoken = event.results[0][0].transcript.trim();
+        const target = sentenceInput.value.trim();
+        if (!target) return;
+
+        if (spoken.toLowerCase() === target.toLowerCase()) {
+          feedbackDiv.innerHTML = `<span class="text-green-600 font-bold text-xl">✅ Excellent! Your pronunciation is perfect.</span><br><span class="italic text-gray-700">Heard:</span> "${spoken}"`;
+        } else {
+          feedbackDiv.innerHTML = `<span class="text-red-600 font-bold text-xl">❌ Hmm... Try again.</span><br><span class="italic text-gray-700">Heard:</span> "${spoken}"<br><span class="italic text-gray-700">Expected:</span> "${target}"`;
+        }
+      };
+
+      recognition.onerror = (e) => {
+        feedbackDiv.innerHTML = `<span class="text-red-500 font-semibold">Error: ${e.error}</span>`;
+      };
+    });
+  </script>
+</body>
+
+</html>
