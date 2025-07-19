@@ -33,7 +33,29 @@
       z-index: -1;
     }
 
-    #demo-section.hidden {
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hidden {
       display: none;
     }
   </style>
@@ -49,8 +71,8 @@
       <a href="#" class="hover:text-yellow-600">Languages Supported</a>
     </nav>
     <div class="space-x-4">
-      <button class="border-2 border-purple-600 text-purple-600 rounded-full px-4 py-1 font-semibold hover:bg-purple-100">Get Started</button>
-      <button class="bg-purple-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-purple-700">Learn More</button>
+      <button onclick="toggleModal('signup-modal')" class="border-2 border-red-500 text-red-500 rounded-full px-4 py-1 font-semibold hover:bg-red-100">Sign Up</button>
+      <button onclick="toggleModal('login-modal')" class="bg-blue-500 text-white rounded-full px-4 py-1 font-semibold hover:bg-blue-600">Log In</button>
     </div>
   </header>
 
@@ -62,20 +84,14 @@
         Potential with Us
       </h2>
       <p class="text-lg text-gray-800 mb-8">
-        PronouncePro offers instant, personalized feedback, helping you master English and regional languages like
-        Kannada. Practice independently and improve your oral fluency with our free, web-based application. Start your
-        journey to confident communication today!
+        PronouncePro offers instant, personalized feedback, helping you master English and regional languages like Kannada. Practice independently and improve your oral fluency with our free, web-based application. Start your journey to confident communication today!
       </p>
-      <div class="flex items-center gap-2 max-w-md mx-auto md:mx-0 mb-6">
-        <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-full text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-        <button class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 font-semibold">Sign up</button>
-      </div>
       <div class="text-center md:text-left">
         <button id="tryBtn" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold hover:bg-green-600 inline-block">🎉 Try for Free</button>
       </div>
     </div>
     <div class="order-1 md:order-2 mb-10 md:mb-0">
-      <img src="https://images.unsplash.com/photo-1631642982169-4ff84ec670a0" alt="Microphone Image" class="w-full rounded-xl shadow-2xl">
+      <img src="mic.jpeg" alt="Microphone Image" class="w-full rounded-xl shadow-2xl">
     </div>
   </section>
 
@@ -84,13 +100,13 @@
     <h2 class="text-3xl font-bold text-center text-purple-700 mb-6">🎤 Try PronouncePro Now</h2>
     <div class="max-w-3xl mx-auto bg-gradient-to-br from-red-100 via-white to-blue-100 p-8 rounded-3xl shadow-2xl border-4 border-blue-300">
       <label for="language" class="block text-xl font-semibold text-blue-700 mb-2">Select Language:</label>
-      <select id="language" class="p-3 w-full border-2 border-blue-300 rounded-xl bg-white text-blue-800 font-medium mb-4">
+      <select id="language" class="p-3 w-full border-2 border-red-300 rounded-xl bg-white text-blue-800 font-medium mb-4">
         <option value="en-US">English (US)</option>
         <option value="kn-IN">Kannada</option>
       </select>
 
       <label for="sentence" class="block text-xl font-semibold text-blue-700 mb-2">What do you want to practice?</label>
-      <input type="text" id="sentence" class="p-3 w-full border-2 border-red-300 rounded-xl bg-white text-blue-800 font-medium mb-6" placeholder="Type a sentence...">
+      <input type="text" id="sentence" class="p-3 w-full border-2 border-blue-300 rounded-xl bg-white text-red-800 font-medium mb-6" placeholder="Type a sentence...">
 
       <div class="flex flex-wrap gap-6 justify-center mb-8">
         <button id="playBtn" class="bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-8 py-3 rounded-full font-bold shadow-xl">🔊 Hear It</button>
@@ -104,13 +120,45 @@
     </div>
   </section>
 
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Create Your Account</h2>
+      <input type="text" placeholder="Name" class="w-full p-4 mb-4 border border-red-300 rounded-lg">
+      <input type="email" placeholder="Email" class="w-full p-4 mb-4 border border-red-300 rounded-lg">
+      <input type="password" placeholder="Password" class="w-full p-4 mb-6 border border-red-300 rounded-lg">
+      <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700">Sign Up</button>
+      <button onclick="toggleModal('signup-modal')" class="mt-4 text-blue-600 hover:underline w-full text-center">Close</button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Welcome Back</h2>
+      <input type="email" placeholder="Email" class="w-full p-4 mb-4 border border-blue-300 rounded-lg">
+      <input type="password" placeholder="Password" class="w-full p-4 mb-6 border border-blue-300 rounded-lg">
+      <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">Log In</button>
+      <button onclick="toggleModal('login-modal')" class="mt-4 text-red-600 hover:underline w-full text-center">Close</button>
+    </div>
+  </div>
+
   <script>
-    // Show demo section only when "Try for Free" is clicked
     document.getElementById('tryBtn').addEventListener('click', () => {
+      hideAllSections();
       const demoSection = document.getElementById('demo-section');
       demoSection.classList.remove('hidden');
       demoSection.scrollIntoView({ behavior: 'smooth' });
     });
+
+    function toggleModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.toggle('hidden');
+    }
+
+    function hideAllSections() {
+      document.getElementById('demo-section').classList.add('hidden');
+    }
 
     const playBtn = document.getElementById('playBtn');
     const recordBtn = document.getElementById('recordBtn');
